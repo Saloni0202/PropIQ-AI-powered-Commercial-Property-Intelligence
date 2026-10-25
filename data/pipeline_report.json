@@ -1,0 +1,30 @@
+{
+  "raw_rows": 1910,
+  "text_values_standardised": 379,
+  "after_dedupe_rows": 1800,
+  "duplicates_removed": 110,
+  "quality_flags": {
+    "missing_rent": 18,
+    "rent_out_of_range": 11,
+    "bad_occupancy": 5,
+    "unmapped_category": 0
+  },
+  "final_rows": 1766,
+  "rows_dropped_validation": 34,
+  "missing_values_in_features": {
+    "year_built": 67,
+    "floors": 71,
+    "parking_ratio": 71,
+    "transit_score": 70,
+    "walk_score": 70,
+    "amenities_score": 70
+  },
+  "missing_value_policy": "Left as NaN in the table; imputed with the training-fold median INSIDE the model pipeline (so no information leaks from the test set).",
+  "lease_rows": 7913,
+  "trend_rows": 720,
+  "sql": {
+    "dedupe": "CREATE TABLE properties_dedup AS\nSELECT * FROM (\n    SELECT s.*,\n           ROW_NUMBER() OVER (\n               PARTITION BY lower(trim(name)), market, size_sf     -- same building = same name + market + size\n               ORDER BY updated_at DESC, property_id ASC           -- keep the freshest record\n           ) AS rn\n    FROM stg_properties s\n)\nWHERE rn = 1;",
+    "quality_checks": "SELECT\n  SUM(CASE WHEN rent_psf IS NULL THEN 1 ELSE 0 END)                                         AS missing_rent,\n  SUM(CASE WHEN rent_psf IS NOT NULL AND (rent_psf < 3 OR rent_psf > 250) THEN 1 ELSE 0 END) AS rent_out_of_range,\n  SUM(CASE WHEN occupancy_pct < 0 OR occupancy_pct > 100 THEN 1 ELSE 0 END)                  AS bad_occupancy,\n  SUM(CASE WHEN market IS NULL OR property_type IS NULL OR building_class IS NULL THEN 1 ELSE 0 END) AS unmapped_category\nFROM properties_dedup;",
+    "validation_filter": "CREATE TABLE properties_valid AS\nSELECT property_id, name, market, state, lat, lon, property_type, building_class,\n       year_built, size_sf, floors, occupancy_pct, parking_ratio, transit_score,\n       walk_score, amenities_score, rent_psf, updated_at\nFROM properties_dedup\nWHERE rent_psf IS NOT NULL\n  AND rent_psf BETWEEN 3 AND 250\n  AND occupancy_pct BETWEEN 0 AND 100\n  AND size_sf > 0\n  AND market IS NOT NULL AND property_type IS NOT NULL AND building_class IS NOT NULL;"
+  }
+}

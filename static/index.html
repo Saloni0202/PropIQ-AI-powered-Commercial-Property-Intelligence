@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PropIQ · Portfolio Overview</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b82d6'/%3E%3Crect x='7' y='13' width='5' height='12' fill='white'/%3E%3Crect x='13.5' y='7' width='5' height='18' fill='white'/%3E%3Crect x='20' y='16' width='5' height='9' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body data-page="overview" data-title="US Commercial Portfolio" data-sub="Synthetic portfolio · AI-assisted rent estimates and lease analytics">
+<main class="page" id="page">
+  <div class="overview">
+    <aside class="card hero">
+      <div class="art">
+        <svg viewBox="0 0 380 215" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of an office skyline">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b9be0"/><stop offset="1" stop-color="#cfe4fb"/></linearGradient>
+            <pattern id="win" width="10" height="12" patternUnits="userSpaceOnUse"><rect width="10" height="12" fill="#1d3a5c"/><rect x="2" y="2" width="6" height="8" fill="#9cc3ee" opacity=".85"/></pattern>
+            <pattern id="win2" width="8" height="10" patternUnits="userSpaceOnUse"><rect width="8" height="10" fill="#35597f"/><rect x="1.5" y="1.5" width="5" height="7" fill="#bcd8f6" opacity=".8"/></pattern>
+          </defs>
+          <rect width="380" height="215" fill="url(#sky)"/>
+          <circle cx="318" cy="46" r="20" fill="#fff" opacity=".55"/>
+          <rect x="18" y="110" width="58" height="105" fill="url(#win2)"/>
+          <rect x="84" y="62" width="74" height="153" fill="url(#win)"/><rect x="84" y="62" width="74" height="6" fill="#0f2238"/>
+          <rect x="166" y="86" width="52" height="129" fill="url(#win2)"/>
+          <rect x="226" y="38" width="62" height="177" fill="url(#win)"/><rect x="226" y="38" width="62" height="6" fill="#0f2238"/><rect x="254" y="22" width="6" height="16" fill="#0f2238"/>
+          <rect x="296" y="98" width="66" height="117" fill="url(#win2)"/>
+          <rect x="0" y="203" width="380" height="12" fill="#12263c"/>
+        </svg>
+      </div>
+      <div class="pad">
+        <h2>US Commercial Portfolio</h2>
+        <div class="meta">Data as of <span id="asof">Oct 1, 2026</span> · model refreshed at build</div>
+        <span class="badge green">Active</span>
+        <p>A synthetic portfolio of office, retail, industrial, medical and flex assets across 20 US markets. Rents are estimated by a validated regression model; leases and market reports feed a retrieval-augmented assistant that answers questions with cited evidence.</p>
+        <dl id="hero-dl"></dl>
+      </div>
+    </aside>
+
+    <div class="stack">
+      <div class="kpis" id="kpis">
+        <div class="kpi"><div class="skeleton" style="height:42px"></div></div><div class="kpi"><div class="skeleton" style="height:42px"></div></div><div class="kpi"><div class="skeleton" style="height:42px"></div></div>
+        <div class="kpi"><div class="skeleton" style="height:42px"></div></div><div class="kpi"><div class="skeleton" style="height:42px"></div></div><div class="kpi"><div class="skeleton" style="height:42px"></div></div>
+      </div>
+
+      <div class="grid g2">
+        <section class="card">
+          <div class="card-h"><h3>Lease Expiry Profile</h3><span class="hint">by calendar year</span></div>
+          <div class="card-b"><div class="chart-box"><canvas id="c-expiry"></canvas></div></div>
+        </section>
+        <section class="card">
+          <div class="card-h"><h3>Top Industry Groups</h3>
+            <div class="toolbar"><select id="ind-metric" style="height:30px"><option value="pct_area">Area</option><option value="pct_rent">Rent</option></select></div></div>
+          <div class="card-b"><div class="chart-box"><canvas id="c-industry"></canvas></div></div>
+        </section>
+        <section class="card">
+          <div class="card-h"><h3>Actual vs Model-Estimated Rent</h3><span class="hint">avg $/SF/yr · out-of-fold</span></div>
+          <div class="card-b"><div class="chart-box tall"><canvas id="c-avm"></canvas></div></div>
+        </section>
+        <section class="card">
+          <div class="card-h"><h3>Portfolio Map</h3><span class="hint">bubble = GLA · colour = avg rent</span></div>
+          <div class="card-b"><div class="map-wrap" id="map"></div></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g3" style="margin-top:16px">
+    <section class="card"><div class="card-h"><h3>Average Rent by Property Type</h3><span class="hint">$/SF/yr</span></div><div class="card-b"><div class="chart-box tall"><canvas id="c-type"></canvas></div></div></section>
+    <section class="card"><div class="card-h"><h3>Occupancy Distribution</h3><span class="hint"># of properties</span></div><div class="card-b"><div class="chart-box tall"><canvas id="c-occ"></canvas></div></div></section>
+    <section class="card">
+      <div class="card-h"><h3>Largest Gaps vs Model</h3>
+        <div class="seg" id="gap-seg"><button class="on" data-k="below_model">Below model</button><button data-k="above_model">Above model</button></div></div>
+      <div class="card-b flush tbl-wrap"><table id="gap-table"></table></div>
+    </section>
+  </div>
+</main>
+<script src="/vendor/chart.umd.js"></script>
+<script src="/vendor/d3.min.js"></script>
+<script src="/vendor/topojson-client.min.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/overview.js"></script>
+</body>
+</html>

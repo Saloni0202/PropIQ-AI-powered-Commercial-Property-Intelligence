@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PropIQ · Rent Predictor</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b82d6'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body data-page="predict" data-title="Rent Predictor" data-sub="Estimate market rent for any asset, see the uncertainty, and understand what moves the number">
+<main class="page" id="page">
+  <div class="grid" style="grid-template-columns:minmax(340px,430px) minmax(0,1fr);align-items:start" id="pred-grid">
+    <section class="card">
+      <div class="card-h"><h3>Property inputs</h3><span class="hint">estimates update as you type</span></div>
+      <div class="card-b">
+        <div class="toolbar" style="margin-bottom:14px" id="presets">
+          <span class="chip" data-p="0">Class A downtown office</span><span class="chip" data-p="1">Suburban retail centre</span><span class="chip" data-p="2">Logistics warehouse</span>
+        </div>
+        <form class="form" id="form" autocomplete="off">
+          <div class="field"><label>Market</label><select id="market" required></select></div>
+          <div class="field"><label>Property type</label><select id="property_type"></select></div>
+          <div class="field"><label>Building class</label><select id="building_class"></select></div>
+          <div class="field"><label>Year built</label><input class="input" type="number" id="year_built" min="1850" max="2027" value="2015"></div>
+          <div class="field"><label>Size (SF)</label><input class="input" type="number" id="size_sf" min="1000" max="5000000" step="1000" value="120000"></div>
+          <div class="field"><label>Floors <small class="muted">(optional)</small></label><input class="input" type="number" id="floors" min="1" max="120" placeholder="auto"></div>
+          <div class="field full"><label>Occupancy <span id="occ-v">88%</span></label><input type="range" id="occupancy_pct" min="40" max="100" step="1" value="88"></div>
+          <div class="field full"><label>Transit score <span id="transit_score-v">auto</span></label><div class="toolbar" style="flex-wrap:nowrap"><input type="range" id="transit_score" min="0" max="100" value="60" disabled><label style="flex:none"><input type="checkbox" id="transit_score-auto" checked> auto</label></div></div>
+          <div class="field full"><label>Walk score <span id="walk_score-v">auto</span></label><div class="toolbar" style="flex-wrap:nowrap"><input type="range" id="walk_score" min="0" max="100" value="60" disabled><label style="flex:none"><input type="checkbox" id="walk_score-auto" checked> auto</label></div></div>
+          <div class="field full"><label>Amenities score <span id="amenities_score-v">auto</span></label><div class="toolbar" style="flex-wrap:nowrap"><input type="range" id="amenities_score" min="0" max="100" value="60" disabled><label style="flex:none"><input type="checkbox" id="amenities_score-auto" checked> auto</label></div></div>
+          <div class="field"><label>Parking / 1,000 SF <small class="muted">(optional)</small></label><input class="input" type="number" id="parking_ratio" min="0" max="15" step="0.1" placeholder="auto"></div>
+          <div class="field" style="align-self:end"><button type="submit" class="btn primary" style="width:100%;justify-content:center">Estimate rent</button></div>
+        </form>
+        <div id="form-err" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <div class="stack" id="results">
+      <section class="card"><div class="card-b" id="hero-result"><div class="skeleton" style="height:150px"></div></div></section>
+      <div class="grid g2">
+        <section class="card"><div class="card-h"><h3>What if the building were a different class?</h3></div><div class="card-b"><div class="chart-box short"><canvas id="c-class"></canvas></div></div></section>
+        <section class="card"><div class="card-h"><h3>Sensitivity: what moves the estimate</h3><span class="hint">Δ $/SF, one factor at a time</span></div><div class="card-b"><div class="chart-box short"><canvas id="c-torn"></canvas></div></div></section>
+      </div>
+      <section class="card"><div class="card-h"><h3>Closest comparable properties</h3><span class="hint">same market &amp; type · nearest size</span></div><div class="card-b flush tbl-wrap"><table id="comps"></table></div></section>
+      <div class="note" id="assumed"></div>
+    </div>
+  </div>
+</main>
+<script src="/vendor/chart.umd.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/predict.js"></script>
+</body>
+</html>

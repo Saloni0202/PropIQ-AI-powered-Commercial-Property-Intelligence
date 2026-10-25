@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: propiq
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python scripts/build_all.py
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /docs

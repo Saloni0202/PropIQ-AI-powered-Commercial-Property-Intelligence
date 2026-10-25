@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PropIQ · Document Q&amp;A</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b82d6'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body data-page="assistant" data-title="Document Q&A" data-sub="Retrieval-augmented answers from lease abstracts, market reports and property reports — every claim cites its source">
+<main class="page" id="page">
+  <div class="grid" style="grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);align-items:start" id="qa-grid">
+    <div class="stack">
+      <section class="card"><div class="card-b">
+        <form class="qa-input" id="qa-form"><input class="input" id="qa-q" maxlength="500" placeholder="Ask about a market, property or tenant…" autocomplete="off"><button class="btn primary" id="qa-go" style="height:44px">Ask</button></form>
+        <div class="toolbar" style="margin-top:12px" id="examples"></div>
+      </div></section>
+      <section id="qa-out"><div class="note"><b>How it works.</b> Your question is matched against 420 document sections (TF-IDF retrieval). The best passages are quoted as the answer and numbered so you can verify them on the right. If nothing relevant is found, the assistant says so instead of guessing.</div></section>
+    </div>
+    <div class="stack">
+      <section class="card"><div class="card-h"><h3>Evidence</h3><span class="hint" id="ev-hint">sources appear after you ask</span></div><div class="card-b" id="evidence"><div class="empty">No question yet.</div></div></section>
+    </div>
+  </div>
+
+  <div class="grid g-main-r" style="margin-top:16px">
+    <section class="card"><div class="card-h"><h3>Retrieval quality</h3><span class="hint">75 questions with a known correct document</span></div><div class="card-b" id="rag-eval"></div></section>
+    <section class="card">
+      <div class="card-h"><h3>Document library</h3><div class="toolbar"><select id="dtype" style="height:30px"><option value="">All types</option><option>Lease abstract</option><option>Market report</option><option>Property report</option></select><input class="input" id="dq" style="height:30px;width:180px" placeholder="Filter…"></div></div>
+      <div class="card-b flush tbl-wrap" style="max-height:340px"><table id="docs"></table></div>
+    </section>
+  </div>
+</main>
+
+<div class="overlay" id="ov"></div>
+<div class="modal" id="modal"><div class="mh"><div><b id="m-title"></b><div class="muted small" id="m-meta"></div></div><button class="btn sm" id="m-close">Close ✕</button></div><div class="mb doc" id="m-body"></div></div>
+
+<script src="/vendor/chart.umd.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/assistant.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PropIQ · Market Analysis</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b82d6'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body data-page="markets" data-title="Market Analysis" data-sub="36 months of rent, vacancy and absorption trends across 20 US markets">
+<main class="page" id="page">
+  <section class="card" style="margin-bottom:16px">
+    <div class="card-h"><h3>Compare markets</h3><span class="hint">select up to 8 · trends update below</span></div>
+    <div class="card-b"><div class="toolbar" id="chips"></div></div>
+  </section>
+
+  <div class="kpis k4" id="mk-kpis" style="margin-bottom:16px"></div>
+
+  <div class="grid g-main">
+    <section class="card"><div class="card-h"><h3>Average Asking Rent</h3><span class="hint">$ per SF per year · monthly</span></div>
+      <div class="card-b"><div class="chart-box tall"><canvas id="c-rent"></canvas></div></div></section>
+    <section class="card"><div class="card-h"><h3>Year-over-Year Rent Growth</h3><span class="hint">all markets</span></div>
+      <div class="card-b"><div class="chart-box tall"><canvas id="c-yoy"></canvas></div></div></section>
+  </div>
+
+  <div class="grid g2" style="margin-top:16px">
+    <section class="card"><div class="card-h"><h3>Vacancy Rate</h3><span class="hint">% of area · monthly</span></div>
+      <div class="card-b"><div class="chart-box"><canvas id="c-vac"></canvas></div></div></section>
+    <section class="card"><div class="card-h"><h3>Net Absorption, Trailing 12 Months</h3><span class="hint">thousand SF · selected markets</span></div>
+      <div class="card-b"><div class="chart-box"><canvas id="c-abs"></canvas></div></div></section>
+  </div>
+
+  <section class="card" style="margin-top:16px">
+    <div class="card-h"><h3>Market Scorecard</h3><span class="hint">click a header to sort</span></div>
+    <div class="card-b flush tbl-wrap"><table id="mk-table"></table></div>
+  </section>
+
+  <div class="grid g-main-r" style="margin-top:16px">
+    <section class="card"><div class="card-h"><h3>Rent Heatmap · Market × Property Type</h3><span class="hint">avg $/SF/yr · darker = higher within type</span></div>
+      <div class="card-b flush tbl-wrap"><table class="heat" id="heat"></table></div></section>
+    <section class="card">
+      <div class="card-h"><h3>What Drives Rent?</h3>
+        <div class="toolbar"><select id="bx" style="height:30px"></select><select id="bt" style="height:30px"></select></div></div>
+      <div class="card-b"><div class="chart-box"><canvas id="c-bin"></canvas></div>
+        <div class="note" style="margin-top:12px">Average rent by bucket of the selected variable, split by building class. Raw averages are descriptive — the regression model on the <a href="/model.html">Model Evaluation</a> page isolates each factor while holding the others constant.</div></div></section>
+  </div>
+</main>
+<script src="/vendor/chart.umd.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/markets.js"></script>
+</body>
+</html>

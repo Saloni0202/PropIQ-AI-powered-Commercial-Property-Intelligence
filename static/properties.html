@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PropIQ · Properties</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b82d6'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body data-page="properties" data-title="Property Explorer" data-sub="Search, filter and drill into any asset — actual rent vs. model estimate, tenants and comparables">
+<main class="page" id="page">
+  <section class="card">
+    <div class="card-h">
+      <div class="toolbar" style="flex:1">
+        <input id="q" class="input" style="min-width:260px;flex:1;max-width:380px" placeholder="Search name, market, ID or tenant…">
+        <select id="f-market"></select><select id="f-type"></select><select id="f-class"></select>
+        <button class="btn sm" id="reset">Reset</button>
+      </div>
+      <span class="hint" id="count"></span>
+    </div>
+    <div class="card-b flush tbl-wrap"><table id="tbl"></table></div>
+    <div class="pager"><span class="muted small" id="range"></span><div class="toolbar"><button class="btn sm" id="prev">← Prev</button><span id="pg" class="small muted"></span><button class="btn sm" id="next">Next →</button></div></div>
+  </section>
+</main>
+
+<div class="overlay" id="ov"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="dh"><div><h2 id="d-title" style="font-size:20px"></h2><div class="muted small" id="d-sub"></div></div><button class="btn sm" id="d-close">Close ✕</button></div>
+  <div class="db" id="d-body"></div>
+</aside>
+
+<script src="/vendor/chart.umd.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/properties.js"></script>
+</body>
+</html>

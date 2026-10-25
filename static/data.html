@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PropIQ · Data &amp; Pipeline</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b82d6'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body data-page="data" data-title="Data &amp; Pipeline" data-sub="From a messy CRM-style export to analysis-ready tables — every step counted and auditable">
+<main class="page" id="page">
+  <section class="card" style="margin-bottom:16px"><div class="card-h"><h3>Cleaning funnel</h3><span class="hint">Pandas for text standardisation · SQL for de-duplication and validation</span></div>
+    <div class="card-b"><div class="steps" id="funnel"></div></div></section>
+
+  <div class="grid g2">
+    <section class="card"><div class="card-h"><h3>Data quality issues found</h3></div><div class="card-b"><div class="chart-box short"><canvas id="c-dq"></canvas></div><p class="muted small" id="dq-note" style="margin:10px 0 0"></p></div></section>
+    <section class="card"><div class="card-h"><h3>Missing values in model features</h3><span class="hint">count after cleaning</span></div><div class="card-b"><div class="chart-box short"><canvas id="c-miss"></canvas></div><p class="muted small" id="miss-note" style="margin:10px 0 0"></p></div></section>
+  </div>
+
+  <div class="grid g2" style="margin-top:16px">
+    <section class="card"><div class="card-h"><h3>SQL · de-duplicate with a window function</h3></div><div class="card-b"><pre class="code" id="sql1"></pre></div></section>
+    <section class="card"><div class="card-h"><h3>SQL · validation filter</h3></div><div class="card-b"><pre class="code" id="sql2"></pre></div></section>
+  </div>
+
+  <section class="card" style="margin-top:16px"><div class="card-h"><h3>Database schema</h3><span class="hint">SQLite · same SQL runs on Postgres / Snowflake with minor changes</span></div>
+    <div class="card-b"><div class="grid g3" id="schema"></div></div></section>
+
+  <section class="card" style="margin-top:16px"><div class="card-h"><h3>Architecture</h3></div>
+    <div class="card-b"><div class="grid g3">
+      <div class="note"><b>1 · Ingest</b><br>Seeded generator writes raw CSVs. Pandas standardises text; SQL window functions de-duplicate; CASE-based checks quantify quality; a validation filter creates the analysis table.</div>
+      <div class="note"><b>2 · Model &amp; retrieve</b><br>scikit-learn pipelines (impute → scale → encode → regress) with CV and a held-out test. TF-IDF retrieval over section chunks, optional LLM synthesis grounded in sources.</div>
+      <div class="note"><b>3 · Serve</b><br>FastAPI exposes /api endpoints and serves this multi-page dashboard. Chart.js and d3 are vendored, so the app runs offline with no external CDN.</div></div></div></section>
+</main>
+<script src="/vendor/chart.umd.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/data.js"></script>
+</body>
+</html>

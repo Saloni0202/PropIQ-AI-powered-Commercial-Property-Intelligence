@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PropIQ · Model Evaluation</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b82d6'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body data-page="model" data-title="Model Evaluation" data-sub="How the rent model was trained, how it was tested, and where it should not be trusted">
+<main class="page" id="page">
+  <div class="kpis k5" id="m-kpis" style="margin-bottom:16px"></div>
+
+  <section class="card" style="margin-bottom:16px">
+    <div class="card-h"><h3>Model comparison</h3><span class="hint">models chosen on 5-fold CV of the training set · test set used once for reporting</span></div>
+    <div class="card-b flush tbl-wrap"><table id="cmp"></table></div>
+  </section>
+
+  <div class="grid g2">
+    <section class="card"><div class="card-h"><h3>Test RMSE by model</h3><span class="hint">$ per SF per year · lower is better</span></div><div class="card-b"><div class="chart-box"><canvas id="c-cmp"></canvas></div></div></section>
+    <section class="card"><div class="card-h"><h3>Predicted vs actual</h3><span class="hint">held-out test set · dashed line = perfect</span></div><div class="card-b"><div class="chart-box"><canvas id="c-sc"></canvas></div></div></section>
+    <section class="card"><div class="card-h"><h3>Error distribution</h3><span class="hint">(prediction − actual) / actual, test set</span></div><div class="card-b"><div class="chart-box"><canvas id="c-res"></canvas></div></div></section>
+    <section class="card"><div class="card-h"><h3>Permutation importance</h3><span class="hint">increase in test MAE when a feature is shuffled</span></div><div class="card-b"><div class="chart-box"><canvas id="c-imp"></canvas></div></div></section>
+  </div>
+
+  <div class="grid g2" style="margin-top:16px">
+    <section class="card"><div class="card-h"><h3>Where does it struggle? · by market</h3><span class="hint">mean abs. % error (out-of-fold)</span></div><div class="card-b"><div class="chart-box tall"><canvas id="c-mk"></canvas></div></div></section>
+    <div class="stack">
+      <section class="card"><div class="card-h"><h3>By property type</h3></div><div class="card-b flush tbl-wrap"><table id="t-type"></table></div></section>
+      <section class="card"><div class="card-h"><h3>Prediction interval check</h3></div><div class="card-b" id="interval"></div></section>
+    </div>
+  </div>
+
+  <section class="card" style="margin-top:16px">
+    <div class="card-h"><h3>Method &amp; limitations</h3><span class="hint">read this before trusting a number</span></div>
+    <div class="card-b"><div class="grid g2">
+      <div><h3 style="margin-bottom:8px">How it was built</h3><ul class="clean" id="method"></ul></div>
+      <div><h3 style="margin-bottom:8px">Limitations</h3><ul class="clean">
+        <li><b>Synthetic data.</b> Rents were generated from a known formula plus noise, so a good score proves the pipeline works — not that it would work on real CBRE data. Real data has hidden drivers (lease terms, sub-market, tenant credit) this model never sees.</li>
+        <li><b>Cross-sectional only.</b> The model estimates today's rent for similar assets. It does not forecast future rents; market trends are descriptive.</li>
+        <li><b>No spatial or time split.</b> Test properties come from the same markets as training ones. Performance on a brand-new market would be worse.</li>
+        <li><b>Intervals are marginal.</b> The 90% band uses one average relative error, so it is too narrow for volatile segments and too wide for stable ones.</li>
+        <li><b>Linear form.</b> The winner is a log-linear model; gradient boosting did not beat it here because the data are mostly additive in log space. On messier real data that ordering may flip.</li>
+      </ul></div></div></div>
+  </section>
+</main>
+<script src="/vendor/chart.umd.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/model.js"></script>
+</body>
+</html>

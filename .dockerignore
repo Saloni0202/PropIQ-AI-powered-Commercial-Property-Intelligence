@@ -1,0 +1,6 @@
+node_modules
+__pycache__
+*.pyc
+.git
+data/propiq.db
+tests/__pycache__

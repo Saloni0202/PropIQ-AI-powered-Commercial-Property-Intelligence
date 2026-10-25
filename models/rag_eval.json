@@ -1,0 +1,44 @@
+{
+ "overall": {
+  "n": 75,
+  "hit@1": 1.0,
+  "hit@3": 1.0,
+  "hit@5": 1.0,
+  "mrr": 1.0
+ },
+ "by_type": {
+  "lease": {
+   "n": 30,
+   "hit@1": 1.0,
+   "hit@3": 1.0,
+   "hit@5": 1.0,
+   "mrr": 1.0
+  },
+  "market": {
+   "n": 20,
+   "hit@1": 1.0,
+   "hit@3": 1.0,
+   "hit@5": 1.0,
+   "mrr": 1.0
+  },
+  "property": {
+   "n": 25,
+   "hit@1": 1.0,
+   "hit@3": 1.0,
+   "hit@5": 1.0,
+   "mrr": 1.0
+  }
+ },
+ "abstention": {
+  "threshold": 0.12,
+  "out_of_scope_n": 10,
+  "out_of_scope_refused": 9,
+  "in_scope_n": 75,
+  "in_scope_wrongly_refused": 0
+ },
+ "n_documents": 125,
+ "n_chunks": 420,
+ "failures": [],
+ "method": "TF-IDF (1-2 grams) retrieval over section-level chunks; questions generated from templates with a known gold document.",
+ "caveat": "Templated questions name the tenant/property/market explicitly, so keyword retrieval finds them easily; near-perfect scores are an upper bound. Paraphrased or multi-document questions (e.g. 'which leases expire soonest?') will score lower and would need embeddings, a re-ranker and a hand-written question set to measure properly."
+}
