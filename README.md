@@ -89,7 +89,6 @@ Raw property, lease & market data
 | Machine learning | Scikit-learn, Ridge, Random Forest, Gradient Boosting |
 | Document retrieval | TF-IDF, retrieval-augmented generation (RAG) |
 | API | FastAPI, Pydantic, Uvicorn |
-| Deployment & testing | Docker, pytest |
 
 ## ⚡ Run Locally
 
@@ -130,20 +129,6 @@ uvicorn app.main:app --reload --port 8000
 | Dashboard | [http://localhost:8000](http://localhost:8000) |
 | Interactive API documentation | [http://localhost:8000/docs](http://localhost:8000/docs) |
 
-**5. Run tests**
-```bash
-pytest -q
-```
-
-## 🐳 Docker
-
-```bash
-docker build -t propiq .
-docker run --rm -p 8000:8000 propiq
-```
-
-Then open [http://localhost:8000](http://localhost:8000).
-
 ## 📁 Project Structure
 
 ```text
@@ -160,8 +145,6 @@ PropIQ/
 │   ├── eval_rag.py      # RAG evaluation
 │   └── build_all.py     # End-to-end build orchestrator
 ├── static/              # Dashboard assets
-├── tests/               # Automated tests
-├── Dockerfile
 ├── render.yaml
 └── requirements.txt
 ```
